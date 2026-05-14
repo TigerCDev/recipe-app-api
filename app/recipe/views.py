@@ -1,5 +1,5 @@
 """
-Views for the recipe APIs.
+Views for the recipe APIs
 """
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -28,5 +28,5 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        """Create a new recipe"""
+        """Create a new recipe."""
         serializer.save(user=self.request.user)

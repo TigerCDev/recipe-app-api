@@ -1,7 +1,8 @@
 """
-Test for the ingredients API.
+Tests for the ingredients API.
 """
 from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
@@ -11,8 +12,8 @@ from rest_framework.test import APIClient
 
 from core.models import (
     Ingredient,
-    Recipe
-    )
+    Recipe,
+)
 
 from recipe.serializers import IngredientSerializer
 
@@ -21,8 +22,9 @@ INGREDIENTS_URL = reverse('recipe:ingredient-list')
 
 
 def detail_url(ingredient_id):
-    """Create and return an ingredient detail URL"""
+    """Create and return an ingredient detail URL."""
     return reverse('recipe:ingredient-detail', args=[ingredient_id])
+
 
 def create_user(email='user@example.com', password='testpass123'):
     """Create and return user."""
@@ -36,7 +38,7 @@ class PublicIngredientsApiTests(TestCase):
         self.client = APIClient()
 
     def test_auth_required(self):
-        """Test auth is required for retreiving ingredients."""
+        """Test auth is required for retrieving ingredients."""
         res = self.client.get(INGREDIENTS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -99,7 +101,7 @@ class PrivateIngredientsApiTests(TestCase):
         self.assertFalse(ingredients.exists())
 
     def test_filter_ingredients_assigned_to_recipes(self):
-        """Test listing ingredients by those assigned to recipes."""
+        """Test listing ingredients to those assigned to recipes."""
         in1 = Ingredient.objects.create(user=self.user, name='Apples')
         in2 = Ingredient.objects.create(user=self.user, name='Turkey')
         recipe = Recipe.objects.create(

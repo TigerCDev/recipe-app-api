@@ -55,7 +55,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         """Handle getting or creating ingredients as needed."""
         auth_user = self.context['request'].user
         for ingredient in ingredients:
-            ingredient_obj, create = Ingredient.objects.get_or_create(
+            ingredient_obj, created = Ingredient.objects.get_or_create(
                 user=auth_user,
                 **ingredient,
             )
@@ -82,18 +82,18 @@ class RecipeSerializer(serializers.ModelSerializer):
             instance.ingredients.clear()
             self._get_or_create_ingredients(ingredients, instance)
 
-
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
         instance.save()
         return instance
 
+
 class RecipeDetailSerializer(RecipeSerializer):
     """Serializer for recipe detail view."""
 
     class Meta(RecipeSerializer.Meta):
-        fields = RecipeSerializer.Meta.fields + ['description', 'image']
+        fields = RecipeSerializer.Meta.fields + ['description']
 
 
 class RecipeImageSerializer(serializers.ModelSerializer):
